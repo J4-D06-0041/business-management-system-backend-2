@@ -102,6 +102,8 @@ router.get('/roles/sales', authenticate, authorizeRole('admin', 'super-admin'), 
  *                 type: string
  *               lastName:
  *                 type: string
+ *               contactNumber:
+ *                 type: string
  *               birthdate:
  *                 type: string
  *                 format: date
