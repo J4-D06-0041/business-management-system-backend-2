@@ -48,6 +48,10 @@ app.get('/api/protected', authenticate, (req, res) => {
   res.json({ message: `Hello, ${req.user.role}! You are authenticated.` });
 });
 
+app.get('/', (req, res) => {
+  res.send('Server is healthy');
+});
+
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
