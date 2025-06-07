@@ -20,14 +20,14 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 
 // Connect to DB
-(async () => {
-    try {
-        await sequelize.authenticate();
-        console.log('✅ Database connected successfully');
-    } catch (error) {
-        console.error('❌ DB Error:', error);
-    }
-})();
+// (async () => {
+//     try {
+//         await sequelize.authenticate();
+//         console.log('✅ Database connected successfully');
+//     } catch (error) {
+//         console.error('❌ DB Error:', error);
+//     }
+// })();
 
 // Middleware
 app.use(cors());
