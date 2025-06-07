@@ -65,7 +65,7 @@ router.post('/', authenticate, authorizeRole('admin', 'super-admin'), productCon
  *       500:
  *         description: Server error
  */
-router.get('/', authenticate, productController.getAllProducts);
+router.get('/', authenticate, authorizeRole('admin', 'super-admin'), productController.getAllProducts);
 
 
 /**
@@ -90,7 +90,7 @@ router.get('/', authenticate, productController.getAllProducts);
  *       500:
  *         description: Server error
  */
-router.get('/:id', authenticate, productController.getProductById);
+router.get('/:id', authenticate, authorizeRole('admin', 'super-admin'), productController.getProductById);
 
 
 /**

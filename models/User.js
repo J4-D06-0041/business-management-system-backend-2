@@ -4,7 +4,7 @@ const sequelize = require('../config/db');
 const User = sequelize.define('User', {
     username: {
         type: DataTypes.STRING,
-        unique: true,
+        // unique: true,
         allowNull: false
     },
     password: {

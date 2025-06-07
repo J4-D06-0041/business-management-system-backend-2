@@ -4,11 +4,15 @@ const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
 const sequelize = require('./config/db');
-const User = require('./models/User');
+
 const authenticate = require('./middleware/authMiddleware');
 const authorizeRole = require('./middleware/authorizeRole');
+
+const User = require('./models/User');
 const Product = require('./models/Product');
 const Equipment = require('./models/Equipment');
+const EquipmentInventory = require('./models/EquipmentInventory');
+
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 
@@ -36,6 +40,7 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/equipment', require('./routes/equipmentRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/equipment-inventory', require('./routes/equipmentInventoryRoutes'));
 
 // Example of a protected route
 app.get('/api/protected', authenticate, (req, res) => {

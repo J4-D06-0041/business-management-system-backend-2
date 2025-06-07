@@ -1,0 +1,140 @@
+/**
+ * @swagger
+ * tags:
+ *   name: EquipmentInventory
+ *   description: Manage inventory assigned to equipment
+ */
+const express = require('express');
+const router = express.Router();
+const controller = require('../controllers/equipmentInventoryController');
+const authenticate = require('../middleware/authMiddleware');
+const authorizeRole = require('../middleware/authorizeRole');
+
+/**
+ * @swagger
+ * /api/equipment-inventory/my:
+ *   get:
+ *     summary: Get inventory assigned to the currently logged-in user
+ *     tags: [EquipmentInventory]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Equipment inventory for logged-in user
+ *       404:
+ *         description: No equipment assigned
+ */
+router.get('/my', authenticate, controller.getLoggedInUserInventory);
+
+
+/**
+ * @swagger
+ * /api/equipment-inventory:
+ *   post:
+ *     summary: Assign a product to equipment inventory
+ *     tags: [EquipmentInventory]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [equipmentId, productId, quantity]
+ *             properties:
+ *               equipmentId:
+ *                 type: integer
+ *               productId:
+ *                 type: integer
+ *               quantity:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Product assigned to equipment inventory
+ */
+router.post('/', authenticate, authorizeRole('admin', 'super-admin'), controller.assignProductToEquipment);
+
+/**
+ * @swagger
+ * /api/equipment-inventory/{equipmentId}/{productId}:
+ *   put:
+ *     summary: Update quantity of an assigned product
+ *     tags: [EquipmentInventory]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: equipmentId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: path
+ *         name: productId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               quantity:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Equipment inventory updated
+ */
+router.put('/:equipmentId/:productId', authenticate, authorizeRole('admin', 'super-admin'), controller.updateEquipmentInventory);
+
+/**
+ * @swagger
+ * /api/equipment-inventory/{equipmentId}:
+ *   get:
+ *     summary: Get inventory for a specific equipment
+ *     tags: [EquipmentInventory]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: equipmentId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Equipment inventory list
+ */
+router.get('/:equipmentId', authenticate, authorizeRole('admin', 'super-admin'), controller.getEquipmentInventory);
+
+/**
+ * @swagger
+ * /api/equipment-inventory/return:
+ *   post:
+ *     summary: Return product to main inventory from equipment
+ *     tags: [EquipmentInventory]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [equipmentId, productId, quantity]
+ *             properties:
+ *               equipmentId:
+ *                 type: integer
+ *               productId:
+ *                 type: integer
+ *               quantity:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Inventory updated after product return
+ */
+router.post('/return', authenticate, authorizeRole('admin', 'super-admin'), controller.returnProductToInventory);
+
+module.exports = router;
