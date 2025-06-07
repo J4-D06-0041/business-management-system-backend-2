@@ -3,34 +3,37 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Products', {
+    await queryInterface.createTable('EquipmentInventory', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false
+      equipmentId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Equipment',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
-      description: {
-        type: Sequelize.TEXT,
-        allowNull: true
-      },
-      price: {
-        type: Sequelize.FLOAT,
-        allowNull: false
+      productId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Products',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       quantity: {
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0
-      },
-      status: {
-        type: Sequelize.ENUM('active', 'inactive'),
-        allowNull: false,
-        defaultValue: 'active'
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -44,8 +47,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
-    await queryInterface.dropTable('Products');
-    await queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
+    await queryInterface.dropTable('EquipmentInventory');
   }
 };

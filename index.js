@@ -12,6 +12,9 @@ const User = require('./models/User');
 const Product = require('./models/Product');
 const Equipment = require('./models/Equipment');
 const EquipmentInventory = require('./models/EquipmentInventory');
+const Customer = require('./models/Customer');
+const Sale = require('./models/Sale');
+const SaleItem = require('./models/SaleItem');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
@@ -21,9 +24,6 @@ const swaggerSpec = require('./config/swagger');
     try {
         await sequelize.authenticate();
         console.log('✅ Database connected successfully');
-
-        await sequelize.sync({ alter: true }); // or force: true
-        console.log('✅ Database synchronized');
     } catch (error) {
         console.error('❌ DB Error:', error);
     }
@@ -41,6 +41,7 @@ app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/equipment', require('./routes/equipmentRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/equipment-inventory', require('./routes/equipmentInventoryRoutes'));
+app.use('/api/customers', require('./routes/customerRoutes'));
 
 // Example of a protected route
 app.get('/api/protected', authenticate, (req, res) => {

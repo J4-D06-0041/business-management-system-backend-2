@@ -3,30 +3,11 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Customers', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        allowNull: false
-      },
-      username: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
-      },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      role: {
-        type: Sequelize.ENUM('super-admin', 'admin', 'sales-person', 'staff'),
         allowNull: false
       },
       firstName: {
@@ -41,18 +22,9 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      birthdate: {
-        type: Sequelize.DATEONLY,
+      email: {
+        type: Sequelize.STRING,
         allowNull: true
-      },
-      startDate: {
-        type: Sequelize.DATEONLY,
-        allowNull: true
-      },
-      status: {
-        type: Sequelize.ENUM('active', 'inactive'),
-        allowNull: false,
-        defaultValue: 'active'
       },
       unitNumber: {
         type: Sequelize.STRING,
@@ -60,21 +32,25 @@ module.exports = {
       },
       street: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       village: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       city: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       province: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       postalCode: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      ltoNumber: {
         type: Sequelize.STRING,
         allowNull: true
       },
@@ -90,12 +66,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('Customers');
   }
 };
