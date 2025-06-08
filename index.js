@@ -15,6 +15,7 @@ const EquipmentInventory = require('./models/EquipmentInventory');
 const Customer = require('./models/Customer');
 const Sale = require('./models/Sale');
 const SaleItem = require('./models/SaleItem');
+const indexjs = require('./models/index');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');

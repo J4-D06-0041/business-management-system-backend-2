@@ -3,6 +3,7 @@ const sequelize = require('../config/db');
 const User = require('./User');
 const Equipment = require('./Equipment');
 const Customer = require('./Customer');
+const SaleItem = require('./SaleItem');
 
 const Sale = sequelize.define('Sale', {
   totalAmount: { type: DataTypes.FLOAT, allowNull: false },
@@ -14,8 +15,9 @@ const Sale = sequelize.define('Sale', {
   }
 });
 
-Sale.belongsTo(User, { foreignKey: 'userId' });
-Sale.belongsTo(Equipment, { foreignKey: 'equipmentId' });
-Sale.belongsTo(Customer, { foreignKey: 'customerId' });
+// Sale.hasMany(SaleItem, { foreignKey: 'saleId', as: 'items' });
+// Sale.belongsTo(User, { foreignKey: 'userId' });
+// Sale.belongsTo(Equipment, { foreignKey: 'equipmentId' });
+// Sale.belongsTo(Customer, { foreignKey: 'customerId' });
 
 module.exports = Sale;

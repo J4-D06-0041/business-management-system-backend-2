@@ -8,7 +8,7 @@ const SaleItem = sequelize.define('SaleItem', {
   price: { type: DataTypes.FLOAT, allowNull: false }
 });
 
-SaleItem.belongsTo(Sale, { foreignKey: 'saleId' });
-SaleItem.belongsTo(Product, { foreignKey: 'productId' });
+// SaleItem.belongsTo(Sale, { foreignKey: 'saleId' });
+// SaleItem.belongsTo(Product, { foreignKey: 'productId' });
 
 module.exports = SaleItem;
