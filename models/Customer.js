@@ -9,6 +9,7 @@ const Customer = sequelize.define('Customer', {
     unitNumber: { type: DataTypes.STRING, allowNull: false },
     street: { type: DataTypes.STRING, allowNull: false },
     village: { type: DataTypes.STRING, allowNull: false },
+    brgy: { type: DataTypes.STRING, allowNull: false },
     city: { type: DataTypes.STRING, allowNull: false },
     province: { type: DataTypes.STRING, allowNull: false },
     postalCode: { type: DataTypes.STRING, allowNull: false},

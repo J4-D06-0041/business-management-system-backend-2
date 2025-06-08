@@ -21,6 +21,7 @@ const User = sequelize.define('User', {
     unitNumber: DataTypes.STRING,
     street: DataTypes.STRING,
     village: DataTypes.STRING,
+    brgy: DataTypes.STRING,
     city: DataTypes.STRING,
     province: DataTypes.STRING,
     postalCode: DataTypes.STRING,
