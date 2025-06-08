@@ -11,6 +11,38 @@ const authorizeRole = require('../middleware/authorizeRole');
  *   description: Product management
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Product:
+ *       type: object
+ *       required:
+ *         - name
+ *         - price
+ *         - quantity
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *         price:
+ *           type: number
+ *           format: float
+ *         quantity:
+ *           type: integer
+ *         status:
+ *           type: string
+ *           enum: [active, inactive]
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ */
 
 /**
  * @swagger

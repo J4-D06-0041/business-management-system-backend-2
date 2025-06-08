@@ -4,6 +4,33 @@
  *   name: EquipmentInventory
  *   description: Manage inventory assigned to equipment
  */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     EquipmentInventory:
+ *       type: object
+ *       required:
+ *         - equipmentId
+ *         - productId
+ *         - quantity
+ *       properties:
+ *         id:
+ *           type: integer
+ *         equipmentId:
+ *           type: integer
+ *         productId:
+ *           type: integer
+ *         quantity:
+ *           type: integer
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ */
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/equipmentInventoryController');

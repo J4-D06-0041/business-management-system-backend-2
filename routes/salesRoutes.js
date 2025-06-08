@@ -4,6 +4,45 @@
  *   name: Sales
  *   description: Sales transactions
  */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Sale:
+ *       type: object
+ *       required:
+ *         - userId
+ *         - equipmentId
+ *         - totalAmount
+ *         - timestamp
+ *         - status
+ *       properties:
+ *         id:
+ *           type: integer
+ *         userId:
+ *           type: integer
+ *         equipmentId:
+ *           type: integer
+ *         customerId:
+ *           type: integer
+ *           nullable: true
+ *         totalAmount:
+ *           type: number
+ *           format: float
+ *         timestamp:
+ *           type: string
+ *           format: date-time
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *         status:
+ *           type: string
+ *           enum: [pending, confirmed, confirmed-with-discrepancies]
+ */
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/salesController');

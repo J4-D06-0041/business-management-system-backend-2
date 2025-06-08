@@ -4,6 +4,48 @@
  *   name: Equipment
  *   description: Equipment (e.g., trucks) assigned to sales-persons
  */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Equipment:
+ *       type: object
+ *       required:
+ *         - name
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *         status:
+ *           type: string
+ *           enum: [active, inactive]
+ *         purchaseDate:
+ *           type: string
+ *           format: date-time
+ *         plateNumber:
+ *           type: string
+ *         vinNumber:
+ *           type: string
+ *         registrationDate:
+ *           type: string
+ *           format: date-time
+ *         registrationExpiryDate:
+ *           type: string
+ *           format: date-time
+ *         userId:
+ *           type: integer
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ */
+
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/equipmentController');
