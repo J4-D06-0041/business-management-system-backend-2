@@ -62,7 +62,7 @@ exports.createSale = async (req, res) => {
 
         res.status(201).json({ sale, items });
     } catch (error) {
-        console.error('Sale creation failed:', error);
+        console.error('createSale Error:', error);
         res.status(500).json({ error: 'Failed to create sale' });
     }
 };
@@ -84,7 +84,7 @@ exports.getAllSales = async (req, res) => {
 
         res.json(sales);
     } catch (error) {
-        console.error('Error fetching all sales:', error);
+        console.error('getAllSales Error:', error);
         res.status(500).json({ error: 'Failed to fetch sales' });
     }
 };
@@ -107,7 +107,7 @@ exports.getSaleById = async (req, res) => {
 
         res.json(sale);
     } catch (error) {
-        console.error('Error fetching sale by ID:', error);
+        console.error('getSaleById Error:', error);
         res.status(500).json({ error: 'Failed to fetch sale' });
     }
 };
@@ -131,7 +131,7 @@ exports.getLoggedInUserSales = async (req, res) => {
 
         res.json(sales);
     } catch (error) {
-        console.error('Error fetching logged-in user sales:', error);
+        console.error('getLoggedInUserSales Error:', error);
         res.status(500).json({ error: 'Failed to fetch sales' });
     }
 };
@@ -199,7 +199,7 @@ exports.updateSale = async (req, res) => {
         await sale.save();
         res.json(sale);
     } catch (error) {
-        console.error('Error updating sale:', error);
+        console.error('updateSale Error:', error);
         res.status(500).json({ error: 'Failed to update sale' });
     }
 };
@@ -224,7 +224,7 @@ exports.getLoggedInUserSaleById = async (req, res) => {
 
         res.json(sale);
     } catch (error) {
-        console.error('Error fetching logged-in user sale by ID:', error);
+        console.error('getLoggedInUserSaleById Error:', error);
         res.status(500).json({ error: 'Failed to fetch sale' });
     }
 }

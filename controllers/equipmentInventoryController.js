@@ -18,6 +18,7 @@ exports.getLoggedInUserInventory = async (req, res) => {
 
     res.json(inventory);
   } catch (err) {
+    console.error('getLoggedInUserInventory Error:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -45,6 +46,7 @@ exports.assignProductToEquipment = async (req, res) => {
 
     res.status(200).json(record);
   } catch (err) {
+    console.error('assignProductToEquipment Error:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -61,6 +63,7 @@ exports.updateEquipmentInventory = async (req, res) => {
     await record.save();
     res.json(record);
   } catch (err) {
+    console.error('updateEquipmentInventory Error:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -76,6 +79,7 @@ exports.getEquipmentInventory = async (req, res) => {
 
     res.json(inventory);
   } catch (err) {
+    console.error('getEquipmentInventory Error:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -101,6 +105,7 @@ exports.returnProductToInventory = async (req, res) => {
 
     res.json(record);
   } catch (err) {
+    console.error('returnProductToInventory Error:', err);
     res.status(500).json({ error: err.message });
   }
 };

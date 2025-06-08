@@ -7,6 +7,7 @@ exports.createCustomer = async (req, res) => {
         const customer = await Customer.create(req.body);
         res.status(201).json(customer);
     } catch (error) {
+        console.error('Create Customer Error:', error);
         res.status(400).json({ error: error.message });
     }
 };
@@ -17,6 +18,7 @@ exports.getAllCustomers = async (req, res) => {
         const customers = await Customer.findAll();
         res.json(customers);
     } catch (error) {
+        console.error('Get All Customers Error:', error);
         res.status(500).json({ error: error.message });
     }
 };
@@ -31,6 +33,7 @@ exports.getCustomerById = async (req, res) => {
             res.status(404).json({ message: 'Customer not found' });
         }
     } catch (error) {
+        console.error('Get Customer By ID Error:', error);
         res.status(500).json({ error: error.message });
     }
 };
@@ -48,6 +51,7 @@ exports.updateCustomer = async (req, res) => {
             res.status(404).json({ message: 'Customer not found' });
         }
     } catch (error) {
+        console.error('Update Customer Error:', error);
         res.status(400).json({ error: error.message });
     }
 };
@@ -64,6 +68,7 @@ exports.deleteCustomer = async (req, res) => {
             res.status(404).json({ message: 'Customer not found' });
         }
     } catch (error) {
+        console.error('Delete Customer Error:', error);
         res.status(500).json({ error: error.message });
     }
 };

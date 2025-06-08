@@ -6,6 +6,7 @@ exports.createProduct = async (req, res) => {
     const product = await Product.create({ name, description, price, quantity, status });
     res.status(201).json(product);
   } catch (err) {
+    console.error('createProduct Error:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -15,6 +16,7 @@ exports.getAllProducts = async (req, res) => {
     const products = await Product.findAll();
     res.json(products);
   } catch (err) {
+    console.error('getAllProducts Error:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -25,6 +27,7 @@ exports.getProductById = async (req, res) => {
     if (!product) return res.status(404).json({ message: 'Product not found' });
     res.json(product);
   } catch (err) {
+    console.error('getProductById Error:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -37,6 +40,7 @@ exports.updateProduct = async (req, res) => {
     await product.update(req.body);
     res.json(product);
   } catch (err) {
+    console.error('updateProduct Error:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -49,6 +53,7 @@ exports.deleteProduct = async (req, res) => {
     await product.update({ status: 'inactive' }); // Soft delete
     res.json({ message: 'Product deactivated' });
   } catch (err) {
+    console.error('deleteProduct Error:', err);
     res.status(500).json({ error: err.message });
   }
 };

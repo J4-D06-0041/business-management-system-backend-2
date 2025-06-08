@@ -77,6 +77,7 @@ exports.updateUser = async (req, res) => {
     delete updatedUser.password;
     res.json(updatedUser);
   } catch (err) {
+    console.error('updateUser Error:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -89,6 +90,7 @@ exports.deleteUser = async (req, res) => {
     await user.destroy();
     res.json({ message: 'User deleted' });
   } catch (err) {
+    console.error('deleteUser Error:', err);
     res.status(500).json({ error: err.message });
   }
 };
