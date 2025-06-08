@@ -21,6 +21,7 @@
  *         - unitNumber
  *         - street
  *         - village
+ *         - brgy
  *         - city
  *         - province
  *         - postalCode
@@ -60,6 +61,8 @@
  *         street:
  *           type: string
  *         village:
+ *           type: string
+ *         brgy:
  *           type: string
  *         city:
  *           type: string
@@ -167,6 +170,7 @@ router.get('/roles/sales', authenticate, authorizeRole('admin', 'super-admin'), 
  *               - unitNumber
  *               - street
  *               - village
+ *               - brgy
  *               - city
  *               - province
  *               - postalCode
@@ -199,6 +203,8 @@ router.get('/roles/sales', authenticate, authorizeRole('admin', 'super-admin'), 
  *                 type: string
  *               village:
  *                 type: string
+ *              brgy:
+ *                type: string
  *               city:
  *                 type: string
  *               province:
@@ -260,6 +266,8 @@ router.post('/', authenticate, authorizeRole('admin', 'super-admin'), controller
  *                 type: string
  *               village:
  *                 type: string
+ *              brgy:
+ *                type: string
  *               city:
  *                 type: string
  *               province:
