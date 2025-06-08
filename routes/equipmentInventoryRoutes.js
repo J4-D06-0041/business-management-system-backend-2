@@ -12,7 +12,7 @@ const authorizeRole = require('../middleware/authorizeRole');
 
 /**
  * @swagger
- * /api/equipment-inventory/my:
+ * /api/equipment-inventory/my-equipment-inventory:
  *   get:
  *     summary: Get inventory assigned to the currently logged-in user
  *     tags: [EquipmentInventory]
@@ -24,7 +24,7 @@ const authorizeRole = require('../middleware/authorizeRole');
  *       404:
  *         description: No equipment assigned
  */
-router.get('/my', authenticate, controller.getLoggedInUserInventory);
+router.get('/my-equipment-inventory', authenticate, controller.getLoggedInUserInventory);
 
 
 /**

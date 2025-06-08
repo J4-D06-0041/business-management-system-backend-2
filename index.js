@@ -42,16 +42,11 @@ app.use('/api/equipment', require('./routes/equipmentRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/equipment-inventory', require('./routes/equipmentInventoryRoutes'));
 app.use('/api/customers', require('./routes/customerRoutes'));
-
-// Example of a protected route
-app.get('/api/protected', authenticate, (req, res) => {
-  res.json({ message: `Hello, ${req.user.role}! You are authenticated.` });
-});
+app.use('/api/sales', require('./routes/salesRoutes'));
 
 app.get('/', (req, res) => {
   res.send('Server is healthy');
 });
-
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {

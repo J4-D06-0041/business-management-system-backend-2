@@ -57,6 +57,7 @@ exports.updateEquipment = async (req, res) => {
         await equipment.update(req.body);
         res.json(equipment);
     } catch (err) {
+        console.error('updateEquipment Error:', err);
         res.status(500).json({ error: err.message });
     }
 };
@@ -71,3 +72,17 @@ exports.deleteEquipment = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.getLoggedInUserEquipment = async (req, res) => {
+    try {
+        const userId = req.user.id; // Assuming user ID is stored in req.user
+        const equipment = await Equipment.findAll({
+            where: { userId },
+            include: [{ model: User, as: 'salesPerson' }]
+        });
+        if (!equipment.length) return res.status(404).json({ message: 'No equipment assigned to this user' });
+        res.json(equipment);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}

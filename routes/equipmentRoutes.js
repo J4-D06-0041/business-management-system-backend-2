@@ -26,6 +26,20 @@ router.get('/', authenticate, authorizeRole('admin', 'super-admin'), controller.
 
 /**
  * @swagger
+ * /api/equipment/my-equipment:
+ *   get:
+ *     summary: Get equipment assigned to the authenticated sales-person
+ *     tags: [Equipment]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of equipment assigned to the sales-person
+ */
+router.get('/my-equipment', authenticate, authorizeRole('sales-person'), controller.getLoggedInUserEquipment);
+
+/**
+ * @swagger
  * /api/equipment:
  *   post:
  *     summary: Create new equipment
