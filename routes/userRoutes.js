@@ -3,6 +3,70 @@
  * tags:
  *   name: Users
  *   description: User management endpoints
+ *
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - username
+ *         - password
+ *         - role
+ *         - firstName
+ *         - lastName
+ *         - contactNumber
+ *         - birthdate
+ *         - startDate
+ *         - status
+ *         - unitNumber
+ *         - street
+ *         - village
+ *         - city
+ *         - province
+ *         - postalCode
+ *       properties:
+ *         id:
+ *           type: integer
+ *         username:
+ *           type: string
+ *         password:
+ *           type: string
+ *         role:
+ *           type: string
+ *           enum: [super-admin, admin, sales-person, staff]
+ *         firstName:
+ *           type: string
+ *         lastName:
+ *           type: string
+ *         contactNumber:
+ *           type: string
+ *         birthdate:
+ *           type: string
+ *           format: date-time
+ *         startDate:
+ *           type: string
+ *           format: date-time
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *         status:
+ *           type: string
+ *           enum: [active, inactive]
+ *         unitNumber:
+ *           type: string
+ *         street:
+ *           type: string
+ *         village:
+ *           type: string
+ *         city:
+ *           type: string
+ *         province:
+ *           type: string
+ *         postalCode:
+ *           type: string
  */
 const express = require('express');
 const router = express.Router();
@@ -90,7 +154,22 @@ router.get('/roles/sales', authenticate, authorizeRole('admin', 'super-admin'), 
  *         application/json:
  *           schema:
  *             type: object
- *             required: [username, password, role, firstName, lastName, birthdate, startDate]
+ *             required:
+ *               - username
+ *               - password
+ *               - role
+ *               - firstName
+ *               - lastName
+ *               - contactNumber
+ *               - birthdate
+ *               - startDate
+ *               - status
+ *               - unitNumber
+ *               - street
+ *               - village
+ *               - city
+ *               - province
+ *               - postalCode
  *             properties:
  *               username:
  *                 type: string
@@ -98,6 +177,7 @@ router.get('/roles/sales', authenticate, authorizeRole('admin', 'super-admin'), 
  *                 type: string
  *               role:
  *                 type: string
+ *                 enum: [super-admin, admin, sales-person, staff]
  *               firstName:
  *                 type: string
  *               lastName:
@@ -106,10 +186,25 @@ router.get('/roles/sales', authenticate, authorizeRole('admin', 'super-admin'), 
  *                 type: string
  *               birthdate:
  *                 type: string
- *                 format: date
+ *                 format: date-time
  *               startDate:
  *                 type: string
- *                 format: date
+ *                 format: date-time
+ *               status:
+ *                 type: string
+ *                 enum: [active, inactive]
+ *               unitNumber:
+ *                 type: string
+ *               street:
+ *                 type: string
+ *               village:
+ *                 type: string
+ *               city:
+ *                 type: string
+ *               province:
+ *                 type: string
+ *               postalCode:
+ *                 type: string
  *     responses:
  *       201:
  *         description: User created
@@ -143,16 +238,34 @@ router.post('/', authenticate, authorizeRole('admin', 'super-admin'), controller
  *                 type: string
  *               role:
  *                 type: string
+ *                 enum: [super-admin, admin, sales-person, staff]
  *               firstName:
  *                 type: string
  *               lastName:
  *                 type: string
+ *               contactNumber:
+ *                 type: string
  *               birthdate:
  *                 type: string
- *                 format: date
+ *                 format: date-time
  *               startDate:
  *                 type: string
- *                 format: date
+ *                 format: date-time
+ *               status:
+ *                 type: string
+ *                 enum: [active, inactive]
+ *               unitNumber:
+ *                 type: string
+ *               street:
+ *                 type: string
+ *               village:
+ *                 type: string
+ *               city:
+ *                 type: string
+ *               province:
+ *                 type: string
+ *               postalCode:
+ *                 type: string
  *     responses:
  *       200:
  *         description: User updated
