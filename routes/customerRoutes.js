@@ -11,6 +11,7 @@
  *         - unitNumber
  *         - street
  *         - village
+ *         - brgy
  *         - city
  *         - province
  *         - postalCode
@@ -34,6 +35,8 @@
  *         street:
  *           type: string
  *         village:
+ *           type: string
+ *         brgy:
  *           type: string
  *         city:
  *           type: string
@@ -65,6 +68,7 @@
  *         unitNumber: "12B"
  *         street: "Main Street"
  *         village: "Green Village"
+ *         brgy: "Barangay 1"
  *         city: "Metro City"
  *         province: "Metro Province"
  *         postalCode: "1234"
