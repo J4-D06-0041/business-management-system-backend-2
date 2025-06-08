@@ -45,7 +45,7 @@ app.use('/api/customers', require('./routes/customerRoutes'));
 app.use('/api/sales', require('./routes/salesRoutes'));
 
 app.get('/', (req, res) => {
-  res.send('Server is healthy');
+  res.status(200).send('OK')
 });
 
 const PORT = process.env.PORT || 5050;
