@@ -11,17 +11,17 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.getCurrentUser = async (req, res) => {
-    try {
-        const userId = req.user && req.user.id;
-        if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+  try {
+    const userId = req.user && req.user.id;
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
-        const user = await User.findByPk(userId, { attributes: { exclude: ['password'] } });
-        if (!user) return res.status(404).json({ message: 'User not found' });
+    const user = await User.findByPk(userId, { attributes: { exclude: ['password'] } });
+    if (!user) return res.status(404).json({ message: 'User not found' });
 
-        res.json(user);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 exports.getUserById = async (req, res) => {
@@ -48,17 +48,18 @@ exports.getSalesPersons = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const { username, password, role, firstName, lastName, contactNumber, birthdate, startDate } = req.body;
+    const { username, password, role, firstName, lastName, contactNumber, birthdate, startDate, unitNumber, street, village, city, province, postalCode } = req.body;
     const existing = await User.findOne({ where: { username } });
     if (existing) return res.status(400).json({ message: 'User already exists' });
 
     const hashed = await bcrypt.hash(password, 10);
-    const user = await User.create({ username, password: hashed, role, firstName, lastName, contactNumber, birthdate, startDate });
+    const user = await User.create({ username, password: hashed, role, firstName, lastName, contactNumber, birthdate, startDate, unitNumber, street, village, city, province, postalCode });
 
     const plainUser = user.toJSON();
     delete plainUser.password;
     res.status(201).json(plainUser);
   } catch (err) {
+    console.error('createUser Error:', err);
     res.status(500).json({ error: err.message });
   }
 };
