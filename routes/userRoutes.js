@@ -203,8 +203,8 @@ router.get('/roles/sales', authenticate, authorizeRole('admin', 'super-admin'), 
  *                 type: string
  *               village:
  *                 type: string
- *              brgy:
- *                type: string
+ *               brgy:
+ *                 type: string
  *               city:
  *                 type: string
  *               province:
@@ -266,8 +266,8 @@ router.post('/', authenticate, authorizeRole('admin', 'super-admin'), controller
  *                 type: string
  *               village:
  *                 type: string
- *              brgy:
- *                type: string
+ *               brgy:
+ *                 type: string
  *               city:
  *                 type: string
  *               province:
