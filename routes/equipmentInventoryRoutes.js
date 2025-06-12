@@ -164,4 +164,38 @@ router.get('/:equipmentId', authenticate, authorizeRole('admin', 'super-admin'),
  */
 router.post('/return', authenticate, authorizeRole('admin', 'super-admin'), controller.returnProductToInventory);
 
+/**
+ * @swagger
+ * /api/equipment-inventory/all:
+ *   get:
+ *     summary: Get all equipment inventory entries
+ *     tags: [EquipmentInventory]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of all equipment inventory entries
+ */
+router.get('/all', authenticate, authorizeRole('admin', 'super-admin'), controller.getAllEquipmentInventory);
+
+/**
+ * @swagger
+ * /api/equipment-inventory/by-product/{productId}:
+ *   get:
+ *     summary: Get all equipment inventory entries for a specific product
+ *     tags: [EquipmentInventory]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: productId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Equipment inventory list for the product
+ */
+router.get('/by-product/:productId', authenticate, authorizeRole('admin', 'super-admin'), controller.getAllEquipmentInventoryByProduct);
+
 module.exports = router;

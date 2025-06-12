@@ -109,3 +109,56 @@ exports.returnProductToInventory = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getAllEquipmentInventory = async (req, res) => {
+  try {
+    const inventory = await EquipmentInventory.findAll({
+      include: [
+        { model: Equipment, attributes: ['name', 'description'] },
+        { model: Product, attributes: ['name', 'description'] }
+      ]
+    });
+
+    res.json(inventory);
+  } catch (err) {
+    console.error('getAllEquipmentInventory Error:', err);
+    res.status(500).json({ error: err.message });
+  }
+}
+
+exports.getEquipmentInventoryByProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    const inventory = await EquipmentInventory.findAll({
+      where: { productId },
+      include: [Equipment]
+    });
+
+    if (!inventory.length) return res.status(404).json({ message: 'No inventory found for this product' });
+
+    res.json(inventory);
+  } catch (err) {
+    console.error('getEquipmentInventoryByProduct Error:', err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getEquipmentInventoryByEquipment = async (req, res) => {
+  try {
+    const { equipmentId } = req.params;
+
+    const inventory = await EquipmentInventory.findAll({
+      where: { equipmentId },
+      include: [Product]
+    });
+
+    if (!inventory.length) return res.status(404).json({ message: 'No inventory found for this equipment' });
+
+    res.json(inventory);
+  } catch (err) {
+    console.error('getEquipmentInventoryByEquipment Error:', err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
