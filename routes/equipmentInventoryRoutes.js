@@ -39,23 +39,6 @@ const authorizeRole = require('../middleware/authorizeRole');
 
 /**
  * @swagger
- * /api/equipment-inventory/my-equipment-inventory:
- *   get:
- *     summary: Get inventory assigned to the currently logged-in user
- *     tags: [EquipmentInventory]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Equipment inventory for logged-in user
- *       404:
- *         description: No equipment assigned
- */
-router.get('/my-equipment-inventory', authenticate, controller.getLoggedInUserInventory);
-
-
-/**
- * @swagger
  * /api/equipment-inventory:
  *   post:
  *     summary: Assign a product to equipment inventory
@@ -81,6 +64,64 @@ router.get('/my-equipment-inventory', authenticate, controller.getLoggedInUserIn
  *         description: Product assigned to equipment inventory
  */
 router.post('/', authenticate, authorizeRole('admin', 'super-admin'), controller.assignProductToEquipment);
+
+/**
+ * @swagger
+ * /api/equipment-inventory/my-equipment-inventory:
+ *   get:
+ *     summary: Get inventory assigned to the currently logged-in user
+ *     tags: [EquipmentInventory]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Equipment inventory for logged-in user
+ *       404:
+ *         description: No equipment assigned
+ */
+router.get('/my-equipment-inventory', authenticate, controller.getLoggedInUserInventory);
+
+/**
+ * @swagger
+ * /api/equipment-inventory/all:
+ *   get:
+ *     summary: Get all equipment inventory entries
+ *     tags: [EquipmentInventory]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of all equipment inventory entries
+ */
+router.get('/all', authenticate, authorizeRole('admin', 'super-admin'), controller.getAllEquipmentInventory);
+
+/**
+ * @swagger
+ * /api/equipment-inventory/return:
+ *   post:
+ *     summary: Return product to main inventory from equipment
+ *     tags: [EquipmentInventory]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [equipmentId, productId, quantity]
+ *             properties:
+ *               equipmentId:
+ *                 type: integer
+ *               productId:
+ *                 type: integer
+ *               quantity:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Inventory updated after product return
+ */
+router.post('/return', authenticate, authorizeRole('admin', 'super-admin'), controller.returnProductToInventory);
 
 /**
  * @swagger
@@ -135,48 +176,6 @@ router.put('/:equipmentId/:productId', authenticate, authorizeRole('admin', 'sup
  *         description: Equipment inventory list
  */
 router.get('/:equipmentId', authenticate, authorizeRole('admin', 'super-admin'), controller.getEquipmentInventory);
-
-/**
- * @swagger
- * /api/equipment-inventory/return:
- *   post:
- *     summary: Return product to main inventory from equipment
- *     tags: [EquipmentInventory]
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required: [equipmentId, productId, quantity]
- *             properties:
- *               equipmentId:
- *                 type: integer
- *               productId:
- *                 type: integer
- *               quantity:
- *                 type: integer
- *     responses:
- *       200:
- *         description: Inventory updated after product return
- */
-router.post('/return', authenticate, authorizeRole('admin', 'super-admin'), controller.returnProductToInventory);
-
-/**
- * @swagger
- * /api/equipment-inventory/all:
- *   get:
- *     summary: Get all equipment inventory entries
- *     tags: [EquipmentInventory]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: List of all equipment inventory entries
- */
-router.get('/all', authenticate, authorizeRole('admin', 'super-admin'), controller.getAllEquipmentInventory);
 
 /**
  * @swagger
