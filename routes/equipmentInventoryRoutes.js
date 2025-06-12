@@ -196,6 +196,6 @@ router.get('/all', authenticate, authorizeRole('admin', 'super-admin'), controll
  *       200:
  *         description: Equipment inventory list for the product
  */
-router.get('/by-product/:productId', authenticate, authorizeRole('admin', 'super-admin'), controller.getAllEquipmentInventoryByProduct);
+router.get('/by-product/:productId', authenticate, authorizeRole('admin', 'super-admin'), controller.getEquipmentInventoryByProduct);
 
 module.exports = router;
