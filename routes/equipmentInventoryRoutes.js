@@ -125,40 +125,6 @@ router.post('/return', authenticate, authorizeRole('admin', 'super-admin'), cont
 
 /**
  * @swagger
- * /api/equipment-inventory/{equipmentId}/{productId}:
- *   put:
- *     summary: Update quantity of an assigned product
- *     tags: [EquipmentInventory]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: equipmentId
- *         required: true
- *         schema:
- *           type: integer
- *       - in: path
- *         name: productId
- *         required: true
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               quantity:
- *                 type: integer
- *     responses:
- *       200:
- *         description: Equipment inventory updated
- */
-router.put('/:equipmentId/:productId', authenticate, authorizeRole('admin', 'super-admin'), controller.updateEquipmentInventory);
-
-/**
- * @swagger
  * /api/equipment-inventory/{equipmentId}:
  *   get:
  *     summary: Get inventory for a specific equipment
@@ -196,5 +162,39 @@ router.get('/:equipmentId', authenticate, authorizeRole('admin', 'super-admin'),
  *         description: Equipment inventory list for the product
  */
 router.get('/by-product/:productId', authenticate, authorizeRole('admin', 'super-admin'), controller.getEquipmentInventoryByProduct);
+
+/**
+ * @swagger
+ * /api/equipment-inventory/{equipmentId}/{productId}:
+ *   put:
+ *     summary: Update quantity of an assigned product
+ *     tags: [EquipmentInventory]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: equipmentId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: path
+ *         name: productId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               quantity:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Equipment inventory updated
+ */
+router.put('/:equipmentId/:productId', authenticate, authorizeRole('admin', 'super-admin'), controller.updateEquipmentInventory);
 
 module.exports = router;
