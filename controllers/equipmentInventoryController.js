@@ -115,11 +115,20 @@ exports.getAllEquipmentInventory = async (req, res) => {
     const inventory = await EquipmentInventory.findAll({
       include: [
         { model: Equipment, attributes: ['name', 'description'] },
-        { model: Product, attributes: ['name', 'description'] }
+        { model: Product, attributes: ['name', 'description', 'price'] }
       ]
     });
 
-    res.json(inventory);
+    // Convert price to number
+    const inventoryWithNumericPrice = inventory.map(item => {
+      const data = item.toJSON();
+      if (data.Product && typeof data.Product.price === 'string') {
+        data.Product.price = parseFloat(data.Product.price);
+      }
+      return data;
+    });
+
+    res.json(inventoryWithNumericPrice);
   } catch (err) {
     console.error('getAllEquipmentInventory Error:', err);
     res.status(500).json({ error: err.message });
