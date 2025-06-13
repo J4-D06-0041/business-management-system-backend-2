@@ -59,8 +59,25 @@ exports.updateEquipmentInventory = async (req, res) => {
     const record = await EquipmentInventory.findOne({ where: { equipmentId, productId } });
     if (!record) return res.status(404).json({ message: 'Inventory record not found' });
 
-    record.quantity = quantity;
+    const product = await Product.findByPk(productId);
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+
+    // const quantityDiff = quantity - record.quantity;
+
+    if (quantity > 0) {
+      // Need to deduct more from product inventory
+      if (product.quantity < quantity) {
+        return res.status(400).json({ message: 'Insufficient product quantity in inventory' });
+      }
+      product.quantity -= quantity;
+    } else if (quantity < 0) {
+      return res.status(400).json({ message: 'Quantity cannot be less than 0' });
+    }
+
+    record.quantity = record.quantity + quantity;
     await record.save();
+    await product.save();
+
     res.json(record);
   } catch (err) {
     console.error('updateEquipmentInventory Error:', err);
