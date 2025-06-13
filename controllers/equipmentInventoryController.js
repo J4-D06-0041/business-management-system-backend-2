@@ -1,6 +1,7 @@
 const EquipmentInventory = require('../models/EquipmentInventory');
 const Product = require('../models/Product');
 const Equipment = require('../models/Equipment');
+const User = require('../models/User');
 
 exports.getLoggedInUserInventory = async (req, res) => {
   try {
@@ -131,7 +132,10 @@ exports.getAllEquipmentInventory = async (req, res) => {
   try {
     const inventory = await EquipmentInventory.findAll({
       include: [
-        { model: Equipment, attributes: ['name', 'description'] },
+        { model: Equipment, 
+          attributes: ['name', 'description'], 
+          include: [{ model: User, 
+            attributes: ['id', 'username', 'role', 'firstName', 'lastName'] }] },
         { model: Product, attributes: ['name', 'description', 'price'] }
       ]
     });
