@@ -135,6 +135,7 @@ exports.getAllEquipmentInventory = async (req, res) => {
         { model: Equipment, 
           attributes: ['name', 'description'], 
           include: [{ model: User, 
+            as: 'salesPerson',
             attributes: ['id', 'username', 'role', 'firstName', 'lastName'] }] },
         { model: Product, attributes: ['name', 'description', 'price'] }
       ]
