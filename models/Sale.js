@@ -12,7 +12,8 @@ const Sale = sequelize.define('Sale', {
     type: DataTypes.ENUM('pending', 'confirmed', 'confirmed-with-discrepancies'),
     allowNull: false,
     defaultValue: 'pending'
-  }
+  },
+  userId: { type: DataTypes.INTEGER, allowNull: false },
 });
 
 // Sale.hasMany(SaleItem, { foreignKey: 'saleId', as: 'items' });
