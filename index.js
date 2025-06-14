@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-// const cors = require('cors');
+const cors = require('cors');
 const morgan = require('morgan');
 const sequelize = require('./config/db');
 
@@ -20,18 +20,8 @@ const indexjs = require('./models/index');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 
-// Connect to DB
-// (async () => {
-//     try {
-//         await sequelize.authenticate();
-//         console.log('✅ Database connected successfully');
-//     } catch (error) {
-//         console.error('❌ DB Error:', error);
-//     }
-// })();
-
 // Middleware
-// app.use(cors());
+app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
