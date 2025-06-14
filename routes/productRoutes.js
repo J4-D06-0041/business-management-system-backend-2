@@ -47,6 +47,22 @@ const authorizeRole = require('../middleware/authorizeRole');
 /**
  * @swagger
  * /api/products:
+ *   get:
+ *     summary: Get all products
+ *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of products
+ *       500:
+ *         description: Server error
+ */
+router.get('/', authenticate, authorizeRole('admin', 'super-admin'), productController.getAllProducts);
+
+/**
+ * @swagger
+ * /api/products:
  *   post:
  *     summary: Create a new product
  *     tags: [Products]
@@ -82,23 +98,21 @@ const authorizeRole = require('../middleware/authorizeRole');
  */
 router.post('/', authenticate, authorizeRole('admin', 'super-admin'), productController.createProduct);
 
-
 /**
  * @swagger
- * /api/products:
+ * /api/products/returnable:
  *   get:
- *     summary: Get all products
+ *     summary: Get returnable products
  *     tags: [Products]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: List of products
+ *         description: List of returnable products
  *       500:
  *         description: Server error
  */
-router.get('/', authenticate, authorizeRole('admin', 'super-admin'), productController.getAllProducts);
-
+router.get('/returnable', authenticate, authorizeRole('admin', 'super-admin', 'sales-person'), productController.getReturnableProducts);
 
 /**
  * @swagger
@@ -123,7 +137,6 @@ router.get('/', authenticate, authorizeRole('admin', 'super-admin'), productCont
  *         description: Server error
  */
 router.get('/:id', authenticate, authorizeRole('admin', 'super-admin'), productController.getProductById);
-
 
 /**
  * @swagger
@@ -166,7 +179,6 @@ router.get('/:id', authenticate, authorizeRole('admin', 'super-admin'), productC
  *         description: Server error
  */
 router.put('/:id', authenticate, authorizeRole('admin', 'super-admin'), productController.updateProduct);
-
 
 /**
  * @swagger

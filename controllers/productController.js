@@ -6,8 +6,8 @@ exports.createProduct = async (req, res) => {
     const product = await Product.create({ name, description, price, quantity, status });
     res.status(201).json(product);
   } catch (err) {
-    console.error('createProduct Error:', err);
-    res.status(500).json({ error: err.message });
+    console.error('createProduct Error:', err.original);
+    res.status(500).json({ error: err.original.sqlMessage || err.message });
   }
 };
 
@@ -54,6 +54,18 @@ exports.deleteProduct = async (req, res) => {
     res.json({ message: 'Product deactivated' });
   } catch (err) {
     console.error('deleteProduct Error:', err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getReturnableProducts = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: { status: 'returnable' }
+    });
+    res.json(products);
+  } catch (err) {
+    console.error('getReturnableProducts Error:', err);
     res.status(500).json({ error: err.message });
   }
 };

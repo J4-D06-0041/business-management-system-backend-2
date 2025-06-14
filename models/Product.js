@@ -7,10 +7,10 @@ const Product = sequelize.define('Product', {
   price: { type: DataTypes.FLOAT, allowNull: false },
   quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
   status: {
-    type: DataTypes.ENUM('active', 'inactive'),
+    type: DataTypes.ENUM('active', 'inactive', 'returnable'),
     allowNull: false,
     defaultValue: 'active'
   }
-});
+}); 
 
 module.exports = Product;
