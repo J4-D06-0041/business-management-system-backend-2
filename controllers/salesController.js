@@ -7,8 +7,9 @@ const Equipment = require('../models/Equipment');
 const User = require('../models/User');
 
 exports.createSale = async (req, res) => {
-    const { customerId, items } = req.body;
-    const userId = req.user.id;
+    const { customerId, items, returnItems, selectedUserId } = req.body;
+
+    const userId = selectedUserId || req.user.id;
 
     const equipment = await Equipment.findOne({ where: { userId } });
     if (!equipment) {
@@ -27,23 +28,15 @@ exports.createSale = async (req, res) => {
         for (const item of items) {
             const { productId, quantity } = item;
 
-            // check first if product status is returnable
-            const product = await Product.findByPk(productId);
-            if (!product) {
-                return res.status(404).json({ message: `Product ${productId} not found` });
+            const inventory = await EquipmentInventory.findOne({ where: { equipmentId, productId } });
+            if (!inventory || inventory.quantity < quantity) {
+                return res.status(400).json({ message: `Insufficient inventory for product ${productId}` });
             }
-            if (product.status !== 'returnable') {
 
-                const inventory = await EquipmentInventory.findOne({ where: { equipmentId, productId } });
-                if (!inventory || inventory.quantity < quantity) {
-                    return res.status(400).json({ message: `Insufficient inventory for product ${productId}` });
-                }
-
-                if (typeof item.price !== 'number' || item.price <= 0) {
-                    return res.status(400).json({ message: `Invalid price for product ${productId}` });
-                }
-                totalAmount += item.price * quantity;
+            if (typeof item.price !== 'number' || item.price <= 0) {
+                return res.status(400).json({ message: `Invalid price for product ${productId}` });
             }
+            totalAmount += item.price * quantity;
         }
 
         // Create sale
@@ -58,27 +51,32 @@ exports.createSale = async (req, res) => {
         // Create sale items and deduct from inventory
         for (const item of items) {
             const { productId, quantity, price } = item;
-            // check first if product status is returnable
-            const product = await Product.findByPk(productId);
-            if (!product) {
-                return res.status(404).json({ message: `Product ${productId} not found` });
+
+            await SaleItem.create({ saleId: sale.id, productId, quantity, price });
+            // Deduct from inventory
+            const inventory = await EquipmentInventory.findOne({ where: { equipmentId, productId } });
+            inventory.quantity -= quantity;
+            await inventory.save();
+        }
+
+        // adjust equipment inventory for return items
+        for (const returnItem of returnItems || []) {
+            const { productId, quantity } = returnItem;
+
+            const inventory = await EquipmentInventory.findOne({ where: { equipmentId, productId } });
+            if (!inventory) {
+                // if product is not in the EquipmentInventory it should insert one
+                await EquipmentInventory.create({
+                    equipmentId,
+                    productId,
+                    quantity
+                });
+                continue; // Skip to next return item
             }
-            if (product.status !== 'returnable') {
-                await SaleItem.create({ saleId: sale.id, productId, quantity, price });
-                // Deduct from inventory
-                const inventory = await EquipmentInventory.findOne({ where: { equipmentId, productId } });
-                inventory.quantity -= quantity;
-                await inventory.save();
-            } else {
-                // if product is returnable, we add the product to the equipment inventory
-                const inventory = await EquipmentInventory.findOne({ where: { equipmentId, productId } });
-                if (inventory) {
-                    inventory.quantity += quantity;
-                    await inventory.save();
-                } else {
-                    await EquipmentInventory.create({ equipmentId, productId, quantity });
-                }
-            }
+
+            inventory.quantity += quantity; // Add back to inventory
+            await inventory.save();
+
         }
 
         res.status(201).json({ sale, items });

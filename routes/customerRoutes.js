@@ -194,7 +194,7 @@ router.get('/:id', authenticate, authorizeRole('super-admin', 'admin', 'sales-pe
  *       404:
  *         description: Customer not found
  */
-router.put('/:id', authenticate, authorizeRole('super-admin', 'admin', 'sales-person'), CustomerController.updateCustomer);
+router.put('/:id', authenticate, authorizeRole('super-admin'), CustomerController.updateCustomer);
 
 /**
  * @swagger

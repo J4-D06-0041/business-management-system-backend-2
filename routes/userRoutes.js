@@ -109,6 +109,20 @@ router.get('/me', authenticate, controller.getCurrentUser);
 
 /**
  * @swagger
+ * /api/users/all-sales-person:
+ *   get:
+ *     summary: Get all sales persons
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of all sales persons
+ */
+router.get('/all-sales-person', authenticate, controller.getAllSalesPersons);
+
+/**
+ * @swagger
  * /api/users/{id}:
  *   get:
  *     summary: Get a user by ID

@@ -68,6 +68,9 @@ const authorizeRole = require('../middleware/authorizeRole');
  *               customerId:
  *                 type: integer
  *                 nullable: true
+ *               selectedUserId:
+ *                 type: integer
+ *                 nullable: true
  *               items:
  *                 type: array
  *                 items:
@@ -80,6 +83,16 @@ const authorizeRole = require('../middleware/authorizeRole');
  *                       type: integer
  *                     price:
  *                       type: number
+ *               returnItems:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   required: [productId, quantity]
+ *                   properties:
+ *                     productId:
+ *                       type: integer
+ *                     quantity:
+ *                       type: integer
  *     responses:
  *       201:
  *         description: Sale successfully recorded

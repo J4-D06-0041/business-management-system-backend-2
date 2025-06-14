@@ -94,3 +94,17 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getAllSalesPersons = async (req, res) => {
+  console.log('getAllSalesPersons called');
+  try {
+    const salesPersons = await User.findAll({
+      where: { role: 'sales-person' },
+      attributes: { exclude: ['password'] }
+    });
+    res.json(salesPersons);
+  } catch (err) {
+    console.error('getAllSalesPersons Error:', err);
+    res.status(500).json({ error: err.message });
+  }
+};
