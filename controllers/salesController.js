@@ -26,20 +26,24 @@ exports.createSale = async (req, res) => {
         // Check inventory and calculate total
         for (const item of items) {
             const { productId, quantity } = item;
-            const inventory = await EquipmentInventory.findOne({ where: { equipmentId, productId } });
-            if (!inventory || inventory.quantity < quantity) {
-                return res.status(400).json({ message: `Insufficient inventory for product ${productId}` });
-            }
 
+            // check first if product status is returnable
             const product = await Product.findByPk(productId);
             if (!product) {
                 return res.status(404).json({ message: `Product ${productId} not found` });
             }
+            if (product.status !== 'returnable') {
 
-            if (typeof item.price !== 'number' || item.price <= 0) {
-                return res.status(400).json({ message: `Invalid price for product ${productId}` });
+                const inventory = await EquipmentInventory.findOne({ where: { equipmentId, productId } });
+                if (!inventory || inventory.quantity < quantity) {
+                    return res.status(400).json({ message: `Insufficient inventory for product ${productId}` });
+                }
+
+                if (typeof item.price !== 'number' || item.price <= 0) {
+                    return res.status(400).json({ message: `Invalid price for product ${productId}` });
+                }
+                totalAmount += item.price * quantity;
             }
-            totalAmount += item.price * quantity;
         }
 
         // Create sale
@@ -54,11 +58,27 @@ exports.createSale = async (req, res) => {
         // Create sale items and deduct from inventory
         for (const item of items) {
             const { productId, quantity, price } = item;
-            await SaleItem.create({ saleId: sale.id, productId, quantity, price });
-
-            const inventory = await EquipmentInventory.findOne({ where: { equipmentId, productId } });
-            inventory.quantity -= quantity;
-            await inventory.save();
+            // check first if product status is returnable
+            const product = await Product.findByPk(productId);
+            if (!product) {
+                return res.status(404).json({ message: `Product ${productId} not found` });
+            }
+            if (product.status !== 'returnable') {
+                await SaleItem.create({ saleId: sale.id, productId, quantity, price });
+                // Deduct from inventory
+                const inventory = await EquipmentInventory.findOne({ where: { equipmentId, productId } });
+                inventory.quantity -= quantity;
+                await inventory.save();
+            } else {
+                // if product is returnable, we add the product to the equipment inventory
+                const inventory = await EquipmentInventory.findOne({ where: { equipmentId, productId } });
+                if (inventory) {
+                    inventory.quantity += quantity;
+                    await inventory.save();
+                } else {
+                    await EquipmentInventory.create({ equipmentId, productId, quantity });
+                }
+            }
         }
 
         res.status(201).json({ sale, items });
