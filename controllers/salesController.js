@@ -4,6 +4,7 @@ const EquipmentInventory = require('../models/EquipmentInventory');
 const Product = require('../models/Product');
 const Customer = require('../models/Customer');
 const Equipment = require('../models/Equipment');
+const User = require('../models/User');
 
 exports.createSale = async (req, res) => {
     const { customerId, items } = req.body;
@@ -73,7 +74,8 @@ exports.getAllSales = async (req, res) => {
             include: [
                 { model: SaleItem, include: [Product] },
                 { model: Customer },
-                { model: Equipment }
+                { model: Equipment },
+                { model: User, attributes: ['id', 'username', 'firstName', 'lastName'] }
             ],
             order: [['timestamp', 'DESC']]
         });
